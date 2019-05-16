@@ -6,12 +6,14 @@ import java.net.URI;
 
 public class MainClass {
 
-    private static final URI _URI = URI.create("http://192.200.222.22:5555");   // change with your own ip address.
+    private static final URI _URI = URI.create("http://localhost:8080/");   // change with your own ip address.
 
     public static void main(String[] args) {
         ResourceConfig resourceConfig = new MyResourceConfig();
         try {
             GrizzlyServerFactory.createHttpServer(_URI, resourceConfig);
+               System.out.println(String.format("Jersey app started with WADL available at "
+                + "%sapplication.wadl\nHit enter to stop it...", _URI));
             System.in.read();
         } catch (Exception e) {
             e.printStackTrace();

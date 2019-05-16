@@ -5,6 +5,7 @@ import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import response.BaseResponse;
 import util.JwTokenHelper;
 
@@ -36,6 +37,9 @@ public class JsTokenFilterNeeded implements ContainerRequestFilter {
             if (e instanceof ExpiredJwtException)
                 throw new WebApplicationException(getUnAuthorizeResponse(PRIVATE_KEY + " is expired."));
             else if (e instanceof MalformedJwtException)
+                throw new WebApplicationException(getUnAuthorizeResponse(PRIVATE_KEY + " is not correct."));
+            else 
+                  if (e instanceof SignatureException)
                 throw new WebApplicationException(getUnAuthorizeResponse(PRIVATE_KEY + " is not correct."));
         }
         return request;
